@@ -5,14 +5,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "listing")
 public class Listing {
-
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "model_id")
     private Integer modelId;
 
-    @Column(name = "user_id")
+    @Column(name = "seller_id")
     private Integer sellerId;
 
     @Column(name = "condition_id")
@@ -45,8 +44,8 @@ public class Listing {
         return sellerId;
     }
 
-    public void setSellerId(Integer selledId) {
-        this.sellerId = selledId;
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
     }
 
     public Integer getConditionId() {
@@ -65,7 +64,6 @@ public class Listing {
         this.listedDate = listedDate;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -81,6 +79,4 @@ public class Listing {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    //price, description, model_id, seller_id, condition_id, listed_datek
 }

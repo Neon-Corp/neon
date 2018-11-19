@@ -9,7 +9,7 @@ public class Model {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "modelName")
+    @Column(name = "model")
     private String modelName;
 
     public Integer getId() {
