@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Show User</title>
+    <title>User account</span></title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -22,8 +22,8 @@
 
     <a th:href="@{/users/{id}/new/(id = ${user.id})}" class="btn btn-primary" >New listing</a>
     <a th:href="@{/}" class="btn btn-primary" >Back to home</a>
-    <a th:href="@{/users/{id}/edit(id = ${user.id})}" class="btn btn-info">Edit this record</a>
-    <a th:href="${user.id +'/delete'}" class="btn btn-danger">Delete this record</a>
+    <a th:href="@{/users/{id}/edit(id = ${user.id})}" class="btn btn-info">Edit account</a>
+    <a th:href="${user.id +'/delete'}" class="btn btn-danger">Delete this account</a>
 
 
         <hr />

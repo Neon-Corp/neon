@@ -52,4 +52,17 @@ public class UserController {
         }
         return "/";
     }
+
+    @GetMapping("/{id}/edit")
+    public String update(Model model, @PathVariable("id") Integer userId) {
+        Optional<User> user = userService.findOne(userId);
+        model.addAttribute("user", user.get());
+        return "user/form";
+    }
+
+    @PutMapping
+    public String update(@Valid @ModelAttribute User user) {
+        user = userService.save(user);
+        return "redirect:/users/" + user.getId();
+    }
 }
