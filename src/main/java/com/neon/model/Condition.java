@@ -1,23 +1,18 @@
 package com.neon.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "condition")
-public class Condition {
+@Table(name = "device_condition")
+public class Condition implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
+    @Column(name = "condition_name")
     private String condition;
 
     private String description;
-
-    public Condition(Integer id, String condition, String description) {
-        this.id = id;
-        this.condition = condition;
-        this.description = description;
-    }
 
     public Integer getId() {
         return id;

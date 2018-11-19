@@ -20,16 +20,26 @@ import javax.validation.Valid;
 public class ListingController {
     @Autowired
     private ListingService listingService;
-
+    @Autowired
+    private ModelService modelService;
+    @Autowired
+    private ConditionService conditionService;
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/new/")
+    @GetMapping
+    public String index(Model model) {
+        Iterable<Listing> allListings = listingService.findAll();
+        model.addAttribute("allListings", allListings);
+        return "listings/index";
+    }
+
+    @GetMapping(value = "/new")
     public String createListing(@PathVariable("id") Integer id, @ModelAttribute Listing listing, Model model){
         User user = userService.findOne(id).get();
         model.addAttribute("user", user);
-        model.addAttribute("models", ModelService.getAll());
-        model.addAttribute("conditions", ConditionService.getAll());
+        model.addAttribute("models", modelService.getAll());
+        model.addAttribute("conditions", conditionService.getAll());
         return "/listing/form";
     }
 
