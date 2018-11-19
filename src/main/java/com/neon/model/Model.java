@@ -3,7 +3,6 @@ package com.neon.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "model")
 public class Model {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,6 +10,9 @@ public class Model {
 
     @Column(name = "model")
     private String modelName;
+
+    @Column(name = "brand_id")
+    private Integer brandId;
 
     public Integer getId() {
         return id;
@@ -26,5 +28,13 @@ public class Model {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
+    }
+
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
     }
 }

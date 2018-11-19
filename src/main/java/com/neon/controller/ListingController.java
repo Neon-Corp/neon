@@ -2,6 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Listing;
 import com.neon.model.User;
+import com.neon.service.BrandService;
 import com.neon.service.ConditionService;
 import com.neon.service.ListingService;
 import com.neon.service.ModelService;
@@ -16,10 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users/{id}")
+@RequestMapping("/listings")
 public class ListingController {
     @Autowired
     private ListingService listingService;
+    @Autowired
+    private BrandService brandService;
     @Autowired
     private ModelService modelService;
     @Autowired
@@ -65,5 +68,11 @@ public class ListingController {
             }
         }
         return "/";
+    }
+
+    @GetMapping("/search")
+    public String brandModelsResult(@RequestParam("brand") String deviceBrand, @RequestParam("model") String deviceModel, Model model) {
+//        Iterable<com.neon.model.Model> brandModels = brandService.searchBrandModel(deviceModel);
+        return "listings/index";
     }
 }
