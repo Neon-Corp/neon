@@ -34,24 +34,4 @@ public class UserService {
     public void delete(User entity){
         userRepository.delete(entity);
     }
-
-
-//    public List<User> findAll() {
-//        return userRepository.findAll();
-//    }
-//
-//    public Optional<User> findOne(Integer id) {
-//        return userRepository.findById(id);
-//    }
-//
-//    @Transactional(readOnly = false)
-//    public User save(User entity) {
-//        return userRepository.save(entity);
-//    }
-//
-//    @Transactional(readOnly = false)
-//    public void delete(User entity) {
-//        userRepository.delete(entity);
-//    }
-
 }
