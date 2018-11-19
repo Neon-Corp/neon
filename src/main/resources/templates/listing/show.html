@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Show User</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 th:text="${listing.description}"></h1>
+    <hr />
+
+    <div class="form-group">
+        <label >Price: </label>
+        <span th:text="${listing.price}"></span>
+    </div>
+
+    <div class="form-group">
+        <label >Listed: </label>
+        <span th:text="${listing.listedDate}"></span>
+    </div>
+
+
+
+    <a th:href="@{/}" class="btn btn-primary" >Back to home</a>
+</div>
+</body>
+</html>

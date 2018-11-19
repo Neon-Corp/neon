@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados</title>
+
+</head>
+<body>
+<form th:object="${listModel}">
+    <div th:if="${not #lists.isEmpty(listModel)}">
+        <h2>Encontramos esses modelos</h2>
+        <table>
+            <tr th:each="model : ${listModel}">
+                <td th:text="${model.modelName}">
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+</body>
+</html>
