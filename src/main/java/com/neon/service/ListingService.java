@@ -5,15 +5,21 @@ import com.neon.model.User;
 import com.neon.repo.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ListingService {
 
     @Autowired
     private ListingRepository listingRepository;
+
+//    public List<Listing> findAll(){
+//        return (List<Listing>) listingRepository.findAll();
+//    }
 
     private static int idCount = 0;
 
