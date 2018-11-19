@@ -65,4 +65,11 @@ public class UserController {
         user = userService.save(user);
         return "redirect:/users/" + user.getId();
     }
+
+    @RequestMapping("/{id}/delete")
+    public String delete(@PathVariable("id") Integer userId) {
+        Optional<User> user = userService.findOne(userId);
+        userService.delete(user.get());
+        return "redirect:/";
+    }
 }
