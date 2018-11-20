@@ -10,11 +10,7 @@ import com.neon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/listings")
@@ -37,7 +33,7 @@ public class ListingController {
         return "listings/index";
     }
 
-    @GetMapping(value = "/new")
+    @GetMapping(value = "/{id}/new")
     public String createListing(@PathVariable("id") Integer id, @ModelAttribute Listing listing, Model model){
         User user = userService.findOne(id).get();
         model.addAttribute("user", user);
@@ -47,19 +43,16 @@ public class ListingController {
     }
 
     @PostMapping
-    public String Create(@Valid @ModelAttribute Listing entityListing, @PathVariable("id") Integer id, BindingResult result, RedirectAttributes redirectAttributes){
-        Listing listing = null;
-        String pagina_retorno = "redirect:/users/";
-        listing = listingService.save(entityListing);
-        listing.setSellerId(id);
-        pagina_retorno =  pagina_retorno + id + "/listing/" + listing.getId();
+    public String Create(@ModelAttribute Listing entityListing){
+        Listing listing = listingService.save(entityListing);
+        String pagina_retorno = "redirect:/listings/" + listing.getId();
         return pagina_retorno;
     }
 
-    @GetMapping("/listing/{id}")
+    @GetMapping("/{id}")
     public String showListing(Model model, @PathVariable("id") Integer id){
         if (id != null) {
-            Listing listing = ListingService.findOne(id);
+            Listing listing = listingService.findOne(id).get();
             if (listing != null){
                 User seller = userService.findOne(listing.getSellerId()).get();
                 model.addAttribute("user", seller);
@@ -74,5 +67,13 @@ public class ListingController {
     public String brandModelsResult(@RequestParam("brand") String deviceBrand, @RequestParam("model") String deviceModel, Model model) {
 //        Iterable<com.neon.model.Model> brandModels = brandService.searchBrandModel(deviceModel);
         return "listings/index";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteListing(Model model, @PathVariable("id") Integer listingId) {
+        Listing listing = listingService.findOne(listingId).get();
+        Integer userID = listing.getSellerId();
+        listingService.delete(listing);
+        return "redirect:/users/" + userID;
     }
 }

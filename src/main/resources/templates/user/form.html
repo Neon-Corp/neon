@@ -29,7 +29,7 @@
 
 
         <button type="submit" class="btn btn-success">Save</button>
-        <a th:href="@{/users}" class="btn btn-default">Back</a>
+        <a th:href="@{/users/{id}(id = ${user.id})}" class="btn btn-default">Back</a>
     </form>
 </div>
 </body>

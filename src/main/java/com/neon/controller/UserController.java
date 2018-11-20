@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,13 @@ public class UserController {
         if (id != null) {
             User user = userService.findOne(id).get();
             if (user != null) {
-                List<Listing> myListings = listingService.findAllFromUser(user);
+                ArrayList<Listing> myListings = new ArrayList<>();
+                Iterable<Listing> allListings = listingService.findAll();
+                for (Listing listing : allListings) {
+                    if(listing.getSellerId() == user.getId()){
+                        myListings.add(listing);
+                    }
+                }
                 model.addAttribute("user", user);
                 model.addAttribute("listListing", myListings);
                 return "/user/show";

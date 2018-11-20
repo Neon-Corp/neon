@@ -1,9 +1,12 @@
 package com.neon.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "listing")
 public class Listing {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -17,8 +20,9 @@ public class Listing {
     @Column(name = "condition_id")
     private Integer conditionId;
 
-    @Column(name = "listed_on")
-    private String listedDate;
+    @Column(name = "listed_on", columnDefinition="DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    private Timestamp listedDate;
 
     private String description;
 
@@ -56,11 +60,11 @@ public class Listing {
         this.conditionId = conditionId;
     }
 
-    public String getListedDate() {
+    public Timestamp getListedDate() {
         return listedDate;
     }
 
-    public void setListedDate(String listedDate) {
+    public void setListedDate(Timestamp listedDate) {
         this.listedDate = listedDate;
     }
 

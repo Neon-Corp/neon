@@ -11,9 +11,10 @@
 <div layout:fragment="content">
     <h1 th:if="${listing.id == null}">New Listing</h1>
     <hr />
-    <form th:action="@{/users/{id}(id = ${user.id})}" th:method="post" th:object="${listing}">
+    <form th:action="@{/listings}" th:method="POST" th:object="${listing}">
 
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" id="sellerId" name="sellerId" th:value="${user.id}" />
 
         <div class="form-group">
             <label for="model">Model</label>
@@ -21,7 +22,6 @@
                 <option th:each="m : ${models}" th:value="${m.id}" th:text="${m.modelName}" ></option>
             </select>
         </div>
-        <!--<input id="userid" name="userid" type="hidden" class="form-control" th:value="${user.id}" th:field="*{userId}" />-->
 
         <div class="form-group">
             <label for="condition">Condition</label>
@@ -29,8 +29,6 @@
                 <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" ></option>
             </select>
         </div>
-
-        <input type="hidden" th:field="*{listedDate}" />
 
         <div class="form-group">
             <label for="description">Description</label>
@@ -43,7 +41,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
-        <a th:href="@{/listings}" class="btn btn-default">Back</a>
+        <a th:href="@{/users/{id}(id = ${user.id})}" class="btn btn-default">Back</a>
     </form>
 </div>
 </body>

@@ -16,7 +16,7 @@
 
     <div class="form-group">
         <label >By: </label>
-        <span th:text="${listing.price}"></span>
+        <span th:text="${user.name}"></span>
     </div>
 
     <div class="form-group">
@@ -29,7 +29,7 @@
         <span th:text="${listing.listedDate}"></span>
     </div>
 
-    <a th:href="@{/users/{id}(id = ${listing.sellerId})}" class="btn btn-primary" >Back to home</a>
+    <a th:href="@{/users/{id}(id = ${listing.sellerId})}" class="btn btn-primary" >Back to my account</a>
 </div>
 </body>
 </html>
