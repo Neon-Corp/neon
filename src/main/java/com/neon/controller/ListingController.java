@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/listings")
 public class ListingController {
@@ -64,8 +67,17 @@ public class ListingController {
     }
 
     @GetMapping("/search")
-    public String brandModelsResult(@RequestParam("brand") String deviceBrand, @RequestParam("model") String deviceModel, Model model) {
-//        Iterable<com.neon.model.Model> brandModels = brandService.searchBrandModel(deviceModel);
+    public String brandModelsResult(@RequestParam("brand") Integer brandID, Model model) {
+        List<Listing> listingsFromBrand = new ArrayList<>();
+
+        Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
+        for (com.neon.model.Model m : modelsFromBrand){
+            Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
+            for (Listing l : modelListings){
+                listingsFromBrand.add(l);
+            }
+        }
+        model.addAttribute("brandListings", listingsFromBrand);
         return "listings/index";
     }
 

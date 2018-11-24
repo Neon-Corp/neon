@@ -4,6 +4,9 @@ import com.neon.model.Listing;
 import com.neon.repo.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,5 +29,16 @@ public class ListingService {
 
     public void delete(Listing listing) {
         listingRepository.delete(listing);
+    }
+
+    public Iterable<Listing> findAllFromModel(Integer modelId){
+        Iterable<Listing> fullList = findAll();
+        List<Listing> listingsFromModel = new ArrayList<>();
+        for (Listing l : fullList){
+            if (l.getModelId() == modelId){
+                listingsFromModel.add(l);
+            }
+        }
+        return listingsFromModel;
     }
 }

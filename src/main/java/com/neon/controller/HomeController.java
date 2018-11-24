@@ -20,8 +20,12 @@ public class HomeController {
         return "index";
     }
 
-    @PostMapping("/teste")
-    public String searchModel(@RequestParam("deviceBrandInput") String deviceBrand, @RequestParam("deviceModelSearchInput") String deviceModel) {
-        return "redirect:listings/search?brand=" + deviceBrand + "&model=" + deviceModel;
+    @PostMapping("/search")
+    public String searchModel(@RequestParam("deviceBrandInput") String deviceBrandId, @RequestParam("deviceModelSearchInput") String deviceModel) {
+        if (deviceModel.equals("")){
+            return "redirect:listings/search?brand=" + deviceBrandId.toString();
+        } else {
+            return "redirect:listings/search?brand=" + deviceBrandId.toString() + "&model=" + deviceModel;
+        }
     }
 }
