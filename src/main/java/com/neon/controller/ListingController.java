@@ -56,16 +56,11 @@ public class ListingController {
 
     @GetMapping("/{id}")
     public String showListing(Model model, @PathVariable("id") Integer id){
-        if (id != null) {
-            Listing listing = listingService.findOne(id).get();
-            if (listing != null){
-                User seller = userService.findOne(listing.getSellerId()).get();
-                model.addAttribute("user", seller);
-                model.addAttribute("listing", listing);
-                return "/listing/show";
-            }
-        }
-        return "/";
+        Listing listing = listingService.findOne(id).get();
+        User seller = userService.findOne(listing.getSellerId()).get();
+        model.addAttribute("user", seller);
+        model.addAttribute("listing", listing);
+        return "/listing/show";
     }
 
     @GetMapping("/search")
@@ -86,8 +81,12 @@ public class ListingController {
     @GetMapping("/{id}/delete")
     public String deleteListing(Model model, @PathVariable("id") Integer listingId) {
         Listing listing = listingService.findOne(listingId).get();
-        Integer userID = listing.getSellerId();
-        listingService.delete(listing);
-        return "redirect:/users/" + userID;
+        Integer sellerId = listing.getSellerId();
+        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        if (sellerId == user.getId()) {
+            listingService.delete(listing);
+        }
+        return "redirect:/users/my-account";
     }
 }

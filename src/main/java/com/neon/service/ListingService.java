@@ -27,6 +27,10 @@ public class ListingService {
         return listingRepository.findAll();
     }
 
+    public Iterable<Listing> findAllBySellerId(Integer sellerId) {
+        return listingRepository.getListingsBySellerId(sellerId);
+    }
+
     public void delete(Listing listing) {
         listingRepository.delete(listing);
     }

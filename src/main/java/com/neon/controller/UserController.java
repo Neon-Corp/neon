@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -42,13 +39,7 @@ public class UserController {
     public String show(Model model) {
         String loggedInUsername = SecurityUtils.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
-        ArrayList<Listing> myListings = new ArrayList<>();
-        Iterable<Listing> allListings = listingService.findAll();
-        for (Listing listing : allListings) {
-            if(listing.getSellerId() == user.getId()){
-                myListings.add(listing);
-            }
-        }
+        Iterable<Listing> myListings = listingService.findAllBySellerId(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("listListing", myListings);
         return "/user/show";
