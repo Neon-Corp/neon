@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Resultados</title>
-
+    <title>Results</title>
 </head>
 <body>
-<form th:object="${listModel}">
-    <div th:if="${not #lists.isEmpty(listModel)}">
-        <h2>Encontramos esses modelos</h2>
-        <table>
-            <tr th:each="model : ${listModel}">
-                <td th:text="${model.modelName}">
+    <div layout:fragment="content">
+        <form th:object="${listModel}">
+            <div th:if="${not #lists.isEmpty(listModel)}">
+                <h2>Found devices:</h2>
+                <table>
+                    <tr th:each="model : ${listModel}">
+                        <td th:text="${model.modelName}">
 
-                </td>
-            </tr>
-        </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     </div>
-</form>
-
 </body>
 </html>

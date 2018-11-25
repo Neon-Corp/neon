@@ -1,48 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>New Listing</title>
+    <title th:inline="text">Neon - [[${listing.id == null} ? 'New listing' : 'Edit listing']]</title>
 </head>
 <body>
-<div layout:fragment="content">
-    <h1 th:if="${listing.id == null}">New Listing</h1>
-    <hr />
-    <form th:action="@{/listings}" th:method="POST" th:object="${listing}">
+    <div layout:fragment="content">
+        <h1 th:inline="text">[[${listing.id == null} ? 'New listing' : 'Edit listing']]</h1>
+        <hr />
+        <form th:action="@{/listings}" th:method="POST" th:object="${listing}">
 
-        <input type="hidden" th:field="*{id}" />
-        <input type="hidden" id="sellerId" name="sellerId" th:value="${user.id}" />
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" id="sellerId" name="sellerId" th:value="${user.id}" />
 
-        <div class="form-group">
-            <label for="model">Model</label>
-            <select id="model" class="form-control" th:field="*{modelId}">
-                <option th:each="m : ${models}" th:value="${m.id}" th:text="${m.modelName}" ></option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="model">Model</label>
+                <select id="model" class="form-control" th:field="*{modelId}">
+                    <option th:each="m : ${models}" th:value="${m.id}" th:text="${m.modelName}" ></option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="condition">Condition</label>
-            <select id="condition" class="form-control" th:field="*{conditionId}">
-                <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" ></option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="condition">Condition</label>
+                <select id="condition" class="form-control" th:field="*{conditionId}">
+                    <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" ></option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" class="form-control" th:field="*{description}" />
-        </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" th:field="*{description}" />
+            </div>
 
-        <div class="form-group">
-            <label for="price">price</label>
-            <input id="price" name="price" class="form-control" th:field="*{price}" />
-        </div>
+            <div class="form-group">
+                <label for="price">price</label>
+                <input id="price" name="price" class="form-control" th:field="*{price}" />
+            </div>
 
-        <button type="submit" class="btn btn-success">Save</button>
-        <a th:href="@{/users/{id}(id = ${user.id})}" class="btn btn-default">Back</a>
-    </form>
-</div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a class="btn btn-default" onclick="window.history.back()">Back</a>
+        </form>
+    </div>
 </body>
 </html>
