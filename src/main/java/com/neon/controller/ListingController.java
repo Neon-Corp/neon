@@ -2,6 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Listing;
 import com.neon.model.User;
+import com.neon.security.SecurityUtils;
 import com.neon.service.BrandService;
 import com.neon.service.ConditionService;
 import com.neon.service.ListingService;
@@ -36,9 +37,10 @@ public class ListingController {
         return "listings/index";
     }
 
-    @GetMapping(value = "/{userID}/new")
-    public String createListing(@PathVariable("userID") Integer userID, @ModelAttribute Listing listing, Model model){
-        User user = userService.findOne(userID).get();
+    @GetMapping(value = "/new")
+    public String createListing(@ModelAttribute Listing listing, Model model){
+        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
         model.addAttribute("user", user);
         model.addAttribute("models", modelService.getAll());
         model.addAttribute("conditions", conditionService.getAll());

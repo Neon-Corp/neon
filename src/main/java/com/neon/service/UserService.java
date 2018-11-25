@@ -24,7 +24,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    @Transactional(readOnly = false)
+    public User findOneByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public User save(User entity){
         return userRepository.save(entity);
     }

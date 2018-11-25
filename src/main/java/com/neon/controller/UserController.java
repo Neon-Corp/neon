@@ -2,6 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Listing;
 import com.neon.model.User;
+import com.neon.security.SecurityUtils;
 import com.neon.service.ListingService;
 import com.neon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,52 +33,46 @@ public class UserController {
 
     @PostMapping
     public String create(@Valid @ModelAttribute User entityUser, BindingResult result, RedirectAttributes redirectAttributes) {
-        User user = null;
-        String pagina_retorno = "redirect:/users/" ;
-        user = userService.save(entityUser);
-        pagina_retorno = pagina_retorno + user.getId();
-
-        return pagina_retorno;
+        User user =  userService.save(entityUser);
+        return "redirect:/users/" + user.getId();
     }
 
     // Tela de Show User
-    @GetMapping("/{id}")
-    public String show(Model model, @PathVariable("id") Integer id) {
-        if (id != null) {
-            User user = userService.findOne(id).get();
-            if (user != null) {
-                ArrayList<Listing> myListings = new ArrayList<>();
-                Iterable<Listing> allListings = listingService.findAll();
-                for (Listing listing : allListings) {
-                    if(listing.getSellerId() == user.getId()){
-                        myListings.add(listing);
-                    }
-                }
-                model.addAttribute("user", user);
-                model.addAttribute("listListing", myListings);
-                return "/user/show";
+    @GetMapping("/my-account")
+    public String show(Model model) {
+        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        ArrayList<Listing> myListings = new ArrayList<>();
+        Iterable<Listing> allListings = listingService.findAll();
+        for (Listing listing : allListings) {
+            if(listing.getSellerId() == user.getId()){
+                myListings.add(listing);
             }
         }
-        return "/";
+        model.addAttribute("user", user);
+        model.addAttribute("listListing", myListings);
+        return "/user/show";
     }
 
-    @GetMapping("/{id}/edit")
-    public String update(Model model, @PathVariable("id") Integer userId) {
-        Optional<User> user = userService.findOne(userId);
-        model.addAttribute("user", user.get());
+    @GetMapping("/edit-account")
+    public String update(Model model) {
+        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        model.addAttribute("user", user);
         return "user/form";
     }
 
     @PutMapping
-    public String update(@Valid @ModelAttribute User user) {
-        user = userService.save(user);
-        return "redirect:/users/" + user.getId();
+    public String update(@Valid @ModelAttribute User entityUser) {
+        userService.save(entityUser);
+        return "redirect:/users/my-account";
     }
 
-    @RequestMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Integer userId) {
-        Optional<User> user = userService.findOne(userId);
-        userService.delete(user.get());
+    @RequestMapping("/delete")
+    public String delete() {
+        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        userService.delete(user);
         return "redirect:/";
     }
 }
