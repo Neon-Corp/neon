@@ -36,9 +36,9 @@ public class ListingController {
         return "listings/index";
     }
 
-    @GetMapping(value = "/{id}/new")
-    public String createListing(@PathVariable("id") Integer id, @ModelAttribute Listing listing, Model model){
-        User user = userService.findOne(id).get();
+    @GetMapping(value = "/{userID}/new")
+    public String createListing(@PathVariable("userID") Integer userID, @ModelAttribute Listing listing, Model model){
+        User user = userService.findOne(userID).get();
         model.addAttribute("user", user);
         model.addAttribute("models", modelService.getAll());
         model.addAttribute("conditions", conditionService.getAll());

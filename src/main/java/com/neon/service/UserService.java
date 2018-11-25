@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 public class UserService {
 
     @Autowired
@@ -30,7 +29,6 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    @Transactional(readOnly = false)
     public void delete(User entity){
         userRepository.delete(entity);
     }
