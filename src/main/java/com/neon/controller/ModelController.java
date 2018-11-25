@@ -1,5 +1,6 @@
 package com.neon.controller;
 
+import com.neon.security.SecurityUtils;
 import com.neon.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ public class ModelController {
 
     @GetMapping("/search")
     public String search(org.springframework.ui.Model model){
-
+        if (SecurityUtils.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        }
         return "index";
     }
 }

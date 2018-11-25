@@ -25,6 +25,9 @@ public class UserController {
 
     @GetMapping(value = "/new")
     public String create(@ModelAttribute User user){
+        if (SecurityUtils.isUserLoggedIn()){
+            return "redirect:/users/my-account";
+        }
         return "/user/form";
     }
 

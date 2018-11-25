@@ -19,7 +19,11 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<form class="form-inline">
-					<ul class="navbar-nav mr-auto">
+					<ul th:if="${loggedInUsername != null || (user != null && user.id != null)}" class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" th:href="@{/users/my-account}">My Account</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+					</ul>
+					<ul th:unless="${loggedInUsername != null || (user != null && user.id != null)}" class="navbar-nav mr-auto">
 						<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
 						<li class="nav-item"><a class="nav-link" href="/users/new">Register</a></li>
 					</ul>

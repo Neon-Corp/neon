@@ -32,6 +32,9 @@ public class ListingController {
 
     @GetMapping
     public String index(Model model) {
+        if (SecurityUtils.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        }
         Iterable<Listing> allListings = listingService.findAll();
         model.addAttribute("allListings", allListings);
         return "listings/index";
@@ -65,6 +68,10 @@ public class ListingController {
 
     @GetMapping("/search")
     public String brandModelsResult(@RequestParam("brand") Integer brandID, Model model) {
+        if (SecurityUtils.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        }
+
         List<Listing> listingsFromBrand = new ArrayList<>();
 
         Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);

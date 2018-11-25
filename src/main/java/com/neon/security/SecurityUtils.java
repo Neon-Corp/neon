@@ -9,6 +9,16 @@ public final class SecurityUtils {
 
     private SecurityUtils() {}
 
+    public static Boolean isUserLoggedIn() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication.getPrincipal().equals("anonymousUser")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static String getLoggedInUsername() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
