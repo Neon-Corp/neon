@@ -3,10 +3,9 @@ package com.neon.service;
 import com.neon.model.User;
 import com.neon.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +28,9 @@ public class UserService {
     }
 
     public User save(User entity){
+        String rawPassword = entity.getPassword();
+        String encodedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt(4));
+        entity.setPassword(encodedPassword);
         return userRepository.save(entity);
     }
 

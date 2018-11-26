@@ -2,7 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Brand;
 import com.neon.model.User;
-import com.neon.security.SecurityUtils;
+import com.neon.service.SecurityService;
 import com.neon.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +19,8 @@ public class HomeController {
 
     @RequestMapping("/")
     public String index(Model model){
-        if (SecurityUtils.isUserLoggedIn()) {
-            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        if (SecurityService.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
         Iterable<Brand> brands = brandService.getAll();
         model.addAttribute("brands", brands);
@@ -29,16 +29,10 @@ public class HomeController {
 
     @GetMapping("/login")
     public String loginIndex(@ModelAttribute User user) {
-        if (SecurityUtils.isUserLoggedIn()){
+        if (SecurityService.isUserLoggedIn()){
             return "redirect:/users/my-account";
         }
         return "login/index";
-    }
-
-    @PostMapping("/login")
-    public String loginSubmit(@Valid @ModelAttribute User user) {
-//        TODO
-        return "redirect:/";
     }
 
     @PostMapping("/search")

@@ -2,7 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Listing;
 import com.neon.model.User;
-import com.neon.security.SecurityUtils;
+import com.neon.service.SecurityService;
 import com.neon.service.BrandService;
 import com.neon.service.ConditionService;
 import com.neon.service.ListingService;
@@ -32,8 +32,8 @@ public class ListingController {
 
     @GetMapping
     public String index(Model model) {
-        if (SecurityUtils.isUserLoggedIn()) {
-            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        if (SecurityService.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
         Iterable<Listing> allListings = listingService.findAll();
         model.addAttribute("allListings", allListings);
@@ -42,7 +42,7 @@ public class ListingController {
 
     @GetMapping(value = "/new")
     public String createListing(@ModelAttribute Listing listing, Model model){
-        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         model.addAttribute("user", user);
         model.addAttribute("models", modelService.getAll());
@@ -68,8 +68,8 @@ public class ListingController {
 
     @GetMapping("/search")
     public String brandModelsResult(@RequestParam("brand") Integer brandID, Model model) {
-        if (SecurityUtils.isUserLoggedIn()) {
-            model.addAttribute("loggedInUsername", SecurityUtils.getLoggedInUsername());
+        if (SecurityService.isUserLoggedIn()) {
+            model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
 
         List<Listing> listingsFromBrand = new ArrayList<>();
@@ -89,7 +89,7 @@ public class ListingController {
     public String deleteListing(Model model, @PathVariable("id") Integer listingId) {
         Listing listing = listingService.findOne(listingId).get();
         Integer sellerId = listing.getSellerId();
-        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         if (sellerId == user.getId()) {
             listingService.delete(listing);

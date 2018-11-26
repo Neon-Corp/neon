@@ -2,7 +2,7 @@ package com.neon.controller;
 
 import com.neon.model.Listing;
 import com.neon.model.User;
-import com.neon.security.SecurityUtils;
+import com.neon.service.SecurityService;
 import com.neon.service.ListingService;
 import com.neon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -23,24 +24,30 @@ public class UserController {
     @Autowired
     private ListingService listingService;
 
+    @Autowired
+    private SecurityService securityService;
+
     @GetMapping(value = "/new")
     public String create(@ModelAttribute User user){
-        if (SecurityUtils.isUserLoggedIn()){
+        if (SecurityService.isUserLoggedIn()){
             return "redirect:/users/my-account";
         }
         return "/user/form";
     }
 
-    @PostMapping
-    public String create(@Valid @ModelAttribute User entityUser, BindingResult result, RedirectAttributes redirectAttributes) {
-        User user =  userService.save(entityUser);
-        return "redirect:/users/" + user.getId();
+    @PostMapping("/submit")
+    public String create(@Valid @ModelAttribute User entityUser, BindingResult result, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
+        String username = entityUser.getUsername();
+        String password = entityUser.getPassword();
+        userService.save(entityUser);
+        securityService.autologin(username, password);
+        return "redirect:/users/my-account";
     }
 
     // Tela de Show User
     @GetMapping("/my-account")
     public String show(Model model) {
-        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         Iterable<Listing> myListings = listingService.findAllBySellerId(user.getId());
         model.addAttribute("user", user);
@@ -50,13 +57,13 @@ public class UserController {
 
     @GetMapping("/edit-account")
     public String update(Model model) {
-        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         model.addAttribute("user", user);
         return "user/form";
     }
 
-    @PutMapping
+    @PutMapping("/submit")
     public String update(@Valid @ModelAttribute User entityUser) {
         userService.save(entityUser);
         return "redirect:/users/my-account";
@@ -64,7 +71,7 @@ public class UserController {
 
     @RequestMapping("/delete")
     public String delete() {
-        String loggedInUsername = SecurityUtils.getLoggedInUsername();
+        String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         userService.delete(user);
         return "redirect:/";

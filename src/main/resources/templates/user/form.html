@@ -7,7 +7,7 @@
     <div layout:fragment="content">
         <h1 th:inline="text">[[${user.id == null} ? 'New user' : 'Edit user info']]</h1>
         <hr />
-        <form th:action="@{/users}" th:method="@{${user.id == null} ? 'post' : 'put'}" th:object="${user}">
+        <form th:action="@{/users/submit}" th:method="@{${user.id == null} ? 'post' : 'put'}" th:object="${user}">
 
             <input type="hidden" th:field="*{id}" />
 
