@@ -5,8 +5,13 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <h1 th:text="${listing.description}"></h1>
+        <h1 th:text="${model}"></h1>
         <hr />
+
+        <div class="form-group">
+            <label >Description: </label>
+            <span th:text="${listing.description}"></span>
+        </div>
 
         <div class="form-group">
             <label >Condition: </label>
@@ -30,10 +35,10 @@
             <span th:text="${listing.listedDate}"></span>
         </div>
 
-        <a class="btn btn-primary" th:if="${user.name != logged}" onclick="window.history.back()">Back</a>
-        <a class="btn btn-primary" th:if="${user.name != logged}" th:href="@{/listings/{id}/buy (id = ${listing.id})}">Buy</a>
+        <a class="btn btn-primary" th:if="${!logged}" onclick="window.history.back()">Back</a>
+        <a class="btn btn-primary" th:if="${!logged}" th:href="@{/listings/{id}/buy (id = ${listing.id})}">Buy</a>
 
-        <a class="btn btn-primary" th:if="${user.name == logged}" th:href="@{/users/my-account}">Go to my listings</a>
+        <a class="btn btn-primary" th:if="${logged}" th:href="@{/users/my-account}">Go to my listings</a>
 
     </div>
 </body>

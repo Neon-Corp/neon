@@ -30,15 +30,23 @@ public class ModelService {
         return resultList;
     }
 
-    public Integer getModelNameById(String modelName) {
-//        Iterable<Model> all = getAll();
-//        for (Model m : all){
-//            System.out.println(m.getModelName().toLowerCase() + " " + modelName.toLowerCase());
-//            if (m.getModelName().toLowerCase().contains(modelName.toLowerCase())){
-//                return m.getId();
-//            }
-//        }
-//        //Not Found
+    public Integer getIdByName(String modelName) {
+        Iterable<Model> all = getAll();
+        for (Model m : all){
+            if (m.getModelName().toLowerCase().contains(modelName.toLowerCase())){
+                return m.getId();
+            }
+        }
         return -1;
+    }
+
+    public String getNameById(Integer id){
+        Iterable<Model> all  = getAll();
+        for (Model m : all){
+            if (m.getId() == id){
+                return m.getModelName();
+            }
+        }
+        return "";
     }
 }

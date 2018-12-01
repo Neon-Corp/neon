@@ -62,11 +62,16 @@ public class ListingController {
         Listing listing = listingService.findOne(id).get();
         User seller = userService.findOne(listing.getSellerId()).get();
 
+        String m = modelService.getNameById(listing.getModelId());
+        model.addAttribute("model", m);
+
         model.addAttribute("user", seller);
         model.addAttribute("listing", listing);
 
         String userName = SecurityService.getLoggedInUsername();
-        model.addAttribute("logged", userName);
+
+        boolean sameUser = (userName.equals(seller.getUsername()));
+        model.addAttribute("logged", sameUser);
         return "/listing/show";
     }
 
@@ -98,7 +103,7 @@ public class ListingController {
             model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
 
-        Integer searchedModelId = modelService.getModelNameById(modelName);
+        Integer searchedModelId = modelService.getIdByName(modelName);
 
         model.addAttribute("brandName", modelName);
 
