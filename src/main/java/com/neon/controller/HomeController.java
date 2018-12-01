@@ -40,7 +40,7 @@ public class HomeController {
         if (deviceModel.equals("")) {
             return "redirect:listings/search?brand=" + deviceBrandId;
         } else {
-            return "redirect:listings/search?brand=" + deviceBrandId + "&model=" + deviceModel;
+            return "redirect:listings/searchModel?brand=" + deviceBrandId + "&model=" + deviceModel;
         }
     }
 }

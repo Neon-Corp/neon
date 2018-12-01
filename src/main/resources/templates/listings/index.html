@@ -6,10 +6,32 @@
 <body>
     <div layout:fragment="content">
         <div class="form-group">
-            <label for="brandListings">Select a brand:</label>
-            <ul name="brandListings" id="brandListings" class="form-control">
-                <li th:each="listing : ${brandListings}" th:value="${listing.id}" th:text="${listing.description}"></li>
-            </ul>
+            <h3>Anúncios Para </h3> <h3 th:text="${brandName}"></h3>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Condition</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="listing : ${listings}">
+                    <td th:text="${listing.description}"></td>
+                    <td>
+                        <span th:if="${listing.conditionId == 1}">Ruim</span>
+                        <span th:if="${listing.conditionId == 2}">Bom</span>
+                        <span th:if="${listing.conditionId == 3}">Novo</span>
+                    </td>
+                    <td th:text="${listing.price}"></td>
+                    <td>
+                        <a th:href="@{/listings/{id} (id = ${listing.id})}" class="btn btn-primary">Show</a>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

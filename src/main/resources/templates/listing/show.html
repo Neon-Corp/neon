@@ -9,13 +9,20 @@
         <hr />
 
         <div class="form-group">
-            <label >By: </label>
-            <span th:text="${user.name}"></span>
+            <label >Condition: </label>
+            <span th:if="${listing.conditionId == 1}">Ruim</span>
+            <span th:if="${listing.conditionId == 2}">Bom</span>
+            <span th:if="${listing.conditionId == 3}">Novo</span>
         </div>
 
         <div class="form-group">
             <label >Price: </label>
             <span th:text="${listing.price}"></span>
+        </div>
+
+        <div class="form-group">
+            <label >By: </label>
+            <span th:text="${user.name}"></span>
         </div>
 
         <div class="form-group">
