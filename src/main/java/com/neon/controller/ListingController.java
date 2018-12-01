@@ -71,49 +71,38 @@ public class ListingController {
     }
 
     @GetMapping("/search")
-    public String brandModelsResult(@RequestParam("brand") Integer brandID, Model model) {
+    public String brandModelsResult(@RequestParam("brand") Integer brandID, @RequestParam("model") String modelName, Model model) {
         if (SecurityService.isUserLoggedIn()) {
             model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
-
         String brandName = brandService.getBrandById(brandID);
         model.addAttribute("brandName", brandName);
+        if (modelName.isEmpty()) {
+            List<Listing> listingsFromBrand = new ArrayList<>();
 
-        List<Listing> listingsFromBrand = new ArrayList<>();
-
-        Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
-        for (com.neon.model.Model m : modelsFromBrand){
-            Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
-            for (Listing l : modelListings){
-                listingsFromBrand.add(l);
-            }
-        }
-        model.addAttribute("listings", listingsFromBrand);
-        return "listings/index";
-    }
-
-    @GetMapping("/searchModel")
-    public String modelsResult(@RequestParam("brand") Integer brandID, @RequestParam("model") String modelName, Model model) {
-        if (SecurityService.isUserLoggedIn()) {
-            model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
-        }
-
-        Integer searchedModelId = modelService.getModelNameById(modelName);
-
-        model.addAttribute("brandName", modelName);
-
-        List<Listing> listingsFromBrand = new ArrayList<>();
-
-        Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
-        for (com.neon.model.Model m : modelsFromBrand){
-            Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
-            for (Listing l : modelListings){
-                if (l.getModelId() == searchedModelId)
+            Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
+            for (com.neon.model.Model m : modelsFromBrand){
+                Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
+                for (Listing l : modelListings){
                     listingsFromBrand.add(l);
+                }
             }
+            model.addAttribute("listings", listingsFromBrand);
+            return "listings/index";
+        } else {
+            Integer searchedModelId = modelService.getIdByName(modelName);
+            List<Listing> listingsFromBrand = new ArrayList<>();
+            Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
+            for (com.neon.model.Model m : modelsFromBrand){
+                Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
+                for (Listing l : modelListings){
+                    if (l.getModelId().equals(searchedModelId))
+                        listingsFromBrand.add(l);
+                }
+            }
+            model.addAttribute("listings", listingsFromBrand);
+            return "listings/index";
         }
-        model.addAttribute("listings", listingsFromBrand);
-        return "listings/index";
     }
 
     @GetMapping("/{id}/delete")

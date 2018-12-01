@@ -37,10 +37,6 @@ public class HomeController {
 
     @PostMapping("/search")
     public String searchModel(@RequestParam("deviceBrandInput") String deviceBrandId, @RequestParam("deviceModelSearchInput") String deviceModel) {
-        if (deviceModel.equals("")) {
-            return "redirect:listings/search?brand=" + deviceBrandId;
-        } else {
-            return "redirect:listings/searchModel?brand=" + deviceBrandId + "&model=" + deviceModel;
-        }
+        return "redirect:listings/search?brand=" + deviceBrandId + "&model=" + deviceModel;
     }
 }

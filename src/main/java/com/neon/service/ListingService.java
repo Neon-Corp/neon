@@ -39,7 +39,7 @@ public class ListingService {
         Iterable<Listing> fullList = findAll();
         List<Listing> listingsFromModel = new ArrayList<>();
         for (Listing l : fullList){
-            if (l.getModelId() == modelId){
+            if (l.getModelId().equals(modelId)){
                 listingsFromModel.add(l);
             }
         }

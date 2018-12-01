@@ -2,22 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
     <title>Neon</title>
+
+    <link rel="stylesheet" th:href="@{/css/new-listing-form.css}">
 </head>
 <body>
     <div layout:fragment="content">
         <form th:action="search" method="POST">
             <div class="form-group">
-                <label for="deviceBrandInput">Select a brand:</label>
-                <select name="deviceBrandInput" id="deviceBrandInput" class="form-control">
-                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brand}"></option>
-                </select>
+                <label for="brand">Select a brand:</label>
+                <input type="text" class="form-control" id="brand">
+                <input type="hidden" name="deviceBrandInput" id="deviceBrandInput">
             </div>
             <div class="form-group">
                 <label for="deviceModelSearchInput">Search for model:</label>
-                <input type="text" class="form-control" id="deviceModelSearchInput" name="deviceModelSearchInput">
+                <input type="text" class="form-control" id="modelAutocomplete">
+                <input type="hidden" name="deviceModelSearchInput" id="deviceModelSearchInput">
             </div>
             <button class="btn btn-primary" type="submit">Search models</button>
         </form>
+
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery.autocomplete.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/index-search-form.js}"></script>
     </div>
 </body>
 </html>
