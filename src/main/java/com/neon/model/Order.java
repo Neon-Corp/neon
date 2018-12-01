@@ -10,11 +10,13 @@ public class Order {
     @Column(name = "listing_id")
     private Integer listingId;
 
-    @Column(name = "seller_id")
-    private Integer sellerId;
-
     @Column(name = "buyer_id")
     private Integer buyerId;
+
+    public Order(Integer listingId, Integer buyerId) {
+        this.listingId = listingId;
+        this.buyerId = buyerId;
+    }
 
     public Integer getId() {
         return id;
@@ -30,14 +32,6 @@ public class Order {
 
     public void setListingId(Integer listingId) {
         this.listingId = listingId;
-    }
-
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
     }
 
     public Integer getBuyerId() {

@@ -1,13 +1,9 @@
 package com.neon.controller;
 
 import com.neon.model.Listing;
+import com.neon.model.Order;
 import com.neon.model.User;
-import com.neon.service.SecurityService;
-import com.neon.service.BrandService;
-import com.neon.service.ConditionService;
-import com.neon.service.ListingService;
-import com.neon.service.ModelService;
-import com.neon.service.UserService;
+import com.neon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +25,8 @@ public class ListingController {
     private ConditionService conditionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping
     public String index(Model model) {
@@ -138,6 +136,15 @@ public class ListingController {
         //Remover Do Vendedor.
         //        //Adicionar ao comprador
         //        //
+//        String buyerUsername = SecurityService.getLoggedInUsername();
+//        User user = userService.findOneByUsername(buyerUsername);
+//        orderService.saveOrder(new Order(listingId, user.getId()));
+//
+//        Listing listing = listingService.findOne(listingId).get();
+//        User seller = userService.findOne(listing.getSellerId()).get();
+//
+//        listingService.
+
         return "index";
     }
 }
