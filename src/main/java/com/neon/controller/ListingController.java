@@ -130,6 +130,6 @@ public class ListingController {
 
     @GetMapping("/{id}/buy")
     public String buy(@PathVariable("id") Integer listingId, Model model){
-        return "";
+        return "index";
     }
 }

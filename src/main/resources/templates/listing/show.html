@@ -31,7 +31,7 @@
         </div>
 
         <a class="btn btn-primary" th:if="${user.name != logged}" onclick="window.history.back()">Back</a>
-        <a class="btn btn-primary" th:if="${user.name != logged}" onclick="window.history.back()">Buy</a>
+        <a class="btn btn-primary" th:if="${user.name != logged}" th:href="@{/listings/{id}/buy (id = ${listing.id})}">Buy</a>
 
         <a class="btn btn-primary" th:if="${user.name == logged}" th:href="@{/users/my-account}">Go to my listings</a>
 
