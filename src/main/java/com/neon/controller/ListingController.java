@@ -1,13 +1,9 @@
 package com.neon.controller;
 
 import com.neon.model.Listing;
+import com.neon.model.Order;
 import com.neon.model.User;
-import com.neon.service.SecurityService;
-import com.neon.service.BrandService;
-import com.neon.service.ConditionService;
-import com.neon.service.ListingService;
-import com.neon.service.ModelService;
-import com.neon.service.UserService;
+import com.neon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +25,8 @@ public class ListingController {
     private ConditionService conditionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping
     public String index(Model model) {
@@ -62,11 +60,16 @@ public class ListingController {
         Listing listing = listingService.findOne(id).get();
         User seller = userService.findOne(listing.getSellerId()).get();
 
+        String m = modelService.getNameById(listing.getModelId());
+        model.addAttribute("model", m);
+
         model.addAttribute("user", seller);
         model.addAttribute("listing", listing);
 
         String userName = SecurityService.getLoggedInUsername();
-        model.addAttribute("logged", userName);
+
+        boolean sameUser = (userName.equals(seller.getUsername()));
+        model.addAttribute("logged", sameUser);
         return "/listing/show";
     }
 
@@ -79,7 +82,6 @@ public class ListingController {
         model.addAttribute("brandName", brandName);
         if (modelName.isEmpty()) {
             List<Listing> listingsFromBrand = new ArrayList<>();
-
             Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
             for (com.neon.model.Model m : modelsFromBrand){
                 Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
@@ -119,6 +121,18 @@ public class ListingController {
 
     @GetMapping("/{id}/buy")
     public String buy(@PathVariable("id") Integer listingId, Model model){
-        return "";
+        //Remover Do Vendedor.
+        //        //Adicionar ao comprador
+        //        //
+//        String buyerUsername = SecurityService.getLoggedInUsername();
+//        User user = userService.findOneByUsername(buyerUsername);
+//        orderService.saveOrder(new Order(listingId, user.getId()));
+//
+//        Listing listing = listingService.findOne(listingId).get();
+//        User seller = userService.findOne(listing.getSellerId()).get();
+//
+//        listingService.
+
+        return "index";
     }
 }

@@ -28,6 +28,7 @@
             <tr>
                 <th>Code</th>
                 <th>Description</th>
+                <th>Price</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -35,6 +36,7 @@
             <tr th:each="l : ${listListing}">
                 <td th:text="${l.id}"></td>
                 <td th:text="${l.description}"></td>
+                <td th:text="${l.price}"></td>
                 <td>
                     <a th:href="@{/listings/{id} (id = ${l.id})}" class="btn btn-primary">Show</a>
                     <!--<a th:href="@{/listings/{id}/edit(id = ${module.id})}" class="btn btn-info">Edit</a>-->

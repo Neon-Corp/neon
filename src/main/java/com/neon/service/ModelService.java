@@ -38,4 +38,14 @@ public class ModelService {
         }
         return -1;
     }
+
+    public String getNameById(Integer id){
+        Iterable<Model> all  = getAll();
+        for (Model m : all){
+            if (m.getId() == id){
+                return m.getModelName();
+            }
+        }
+        return "";
+    }
 }
