@@ -135,6 +135,9 @@ public class ListingController {
 
     @GetMapping("/{id}/buy")
     public String buy(@PathVariable("id") Integer listingId, Model model){
+        //Remover Do Vendedor.
+        //        //Adicionar ao comprador
+        //        //
         return "index";
     }
 }
