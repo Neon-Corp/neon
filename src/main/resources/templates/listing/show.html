@@ -30,8 +30,11 @@
             <span th:text="${listing.listedDate}"></span>
         </div>
 
-        <a class="btn btn-primary" th:if="${listing.sellerId != user.id}" onclick="window.history.back()">Back</a>
-        <a class="btn btn-primary" th:if="${listing.sellerId == user.id}" th:href="@{/users/my-account}">Go to my listings</a>
+        <a class="btn btn-primary" th:if="${user.name != logged}" onclick="window.history.back()">Back</a>
+        <a class="btn btn-primary" th:if="${user.name != logged}" onclick="window.history.back()">Buy</a>
+
+        <a class="btn btn-primary" th:if="${user.name == logged}" th:href="@{/users/my-account}">Go to my listings</a>
+
     </div>
 </body>
 </html>

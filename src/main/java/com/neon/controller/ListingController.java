@@ -61,8 +61,12 @@ public class ListingController {
     public String showListing(Model model, @PathVariable("id") Integer id){
         Listing listing = listingService.findOne(id).get();
         User seller = userService.findOne(listing.getSellerId()).get();
+
         model.addAttribute("user", seller);
         model.addAttribute("listing", listing);
+
+        String userName = SecurityService.getLoggedInUsername();
+        model.addAttribute("logged", userName);
         return "/listing/show";
     }
 
@@ -122,5 +126,10 @@ public class ListingController {
             listingService.delete(listing);
         }
         return "redirect:/users/my-account";
+    }
+
+    @GetMapping("/{id}/buy")
+    public String buy(@PathVariable("id") Integer listingId, Model model){
+        return "";
     }
 }
