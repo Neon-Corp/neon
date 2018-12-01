@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
 <head>
     <title th:inline="text">Neon - [[${listing.id == null} ? 'New listing' : 'Edit listing']]</title>
+
+    <link rel="stylesheet" th:href="@{/css/new-listing-form.css}">
 </head>
 <body>
     <div layout:fragment="content">
@@ -11,13 +13,24 @@
 
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" id="sellerId" name="sellerId" th:value="${user.id}" />
+            
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" class="form-control" id="brand">
+            </div>
 
             <div class="form-group">
-                <label for="model">Model</label>
-                <select id="model" class="form-control" th:field="*{modelId}">
-                    <option th:each="m : ${models}" th:value="${m.id}" th:text="${m.modelName}" ></option>
-                </select>
+                <label for="modelAutocomplete">Model</label>
+                <input type="text" class="form-control" id="modelAutocomplete">
+                <input type="hidden" id="model" th:field="*{modelId}">
             </div>
+
+            <!--<div class="form-group">-->
+                <!--<label for="model">Model</label>-->
+                <!--<select id="model" class="form-control" th:field="*{modelId}">-->
+                    <!--<option th:each="m : ${models}" th:value="${m.id}" th:text="${m.modelName}" ></option>-->
+                <!--</select>-->
+            <!--</div>-->
 
             <div class="form-group">
                 <label for="condition">Condition</label>
@@ -39,6 +52,11 @@
             <button type="submit" class="btn btn-success">Save</button>
             <a class="btn btn-default" onclick="window.history.back()">Back</a>
         </form>
+
+
+        <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery.autocomplete.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/new-listing-form.js}"></script>
     </div>
 </body>
 </html>
