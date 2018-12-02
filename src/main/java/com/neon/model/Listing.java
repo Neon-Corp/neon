@@ -3,7 +3,6 @@ package com.neon.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -27,6 +26,8 @@ public class Listing {
     private String description;
 
     private double price;
+
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -82,5 +83,13 @@ public class Listing {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

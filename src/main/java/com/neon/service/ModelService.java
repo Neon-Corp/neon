@@ -22,7 +22,7 @@ public class ModelService {
         Iterable<Model> fullList = getAll();
         List<Model> resultList = new ArrayList<>();
         for (Model m : fullList){
-            if (m.getBrandId() == brandId){
+            if (m.getBrandId().equals(brandId)){
                 resultList.add(m);
             }
         }
@@ -42,7 +42,7 @@ public class ModelService {
     public String getNameById(Integer id){
         Iterable<Model> all  = getAll();
         for (Model m : all){
-            if (m.getId() == id){
+            if (m.getId().equals(id)){
                 return m.getModelName();
             }
         }

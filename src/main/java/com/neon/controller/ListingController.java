@@ -50,6 +50,7 @@ public class ListingController {
 
     @PostMapping
     public String Create(@ModelAttribute Listing entityListing){
+        entityListing.setStatus(1);
         Listing listing = listingService.save(entityListing);
         String pagina_retorno = "redirect:/listings/" + listing.getId();
         return pagina_retorno;
@@ -113,7 +114,7 @@ public class ListingController {
         Integer sellerId = listing.getSellerId();
         String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
-        if (sellerId == user.getId()) {
+        if (sellerId.equals(user.getId())) {
             listingService.delete(listing);
         }
         return "redirect:/users/my-account";
@@ -121,6 +122,10 @@ public class ListingController {
 
     @GetMapping("/{id}/buy")
     public String buy(@PathVariable("id") Integer listingId, Model model){
+        String loggedInUsername = SecurityService.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        orderService.saveOrder(listingId, user.getId());
+
         //Remover Do Vendedor.
         //        //Adicionar ao comprador
         //        //
@@ -133,6 +138,6 @@ public class ListingController {
 //
 //        listingService.
 
-        return "index";
+        return "redirect:/users/my-account";
     }
 }
