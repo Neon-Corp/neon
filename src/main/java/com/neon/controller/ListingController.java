@@ -1,8 +1,6 @@
 package com.neon.controller;
 
-import com.neon.model.Listing;
-import com.neon.model.Order;
-import com.neon.model.User;
+import com.neon.model.*;
 import com.neon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +41,6 @@ public class ListingController {
         String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         model.addAttribute("user", user);
-        model.addAttribute("models", modelService.getAll());
         model.addAttribute("conditions", conditionService.getAll());
         return "/listing/form";
     }
@@ -52,8 +49,7 @@ public class ListingController {
     public String Create(@ModelAttribute Listing entityListing){
         entityListing.setStatus(1);
         Listing listing = listingService.save(entityListing);
-        String pagina_retorno = "redirect:/listings/" + listing.getId();
-        return pagina_retorno;
+        return "redirect:/listings/" + listing.getId();
     }
 
     @GetMapping("/{id}")
@@ -79,7 +75,7 @@ public class ListingController {
         if (SecurityService.isUserLoggedIn()) {
             model.addAttribute("loggedInUsername", SecurityService.getLoggedInUsername());
         }
-        String brandName = brandService.getBrandById(brandID);
+        String brandName = brandService.getBrandById(brandID).getBrand();
         model.addAttribute("brandName", brandName);
         if (modelName.isEmpty()) {
             List<Listing> listingsFromBrand = new ArrayList<>();
@@ -106,6 +102,29 @@ public class ListingController {
             model.addAttribute("listings", listingsFromBrand);
             return "listings/index";
         }
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editListing(Model model, @PathVariable("id") Integer listingId) {
+        String loggedInUsername = SecurityService.getLoggedInUsername();
+        User user = userService.findOneByUsername(loggedInUsername);
+        model.addAttribute("user", user);
+        Listing listing = listingService.findOne(listingId).get();
+        model.addAttribute("listing", listing);
+        com.neon.model.Model deviceModel = modelService.findOneById(listing.getModelId());
+        model.addAttribute("deviceModel", deviceModel);
+        Brand deviceBrand = brandService.getBrandById(deviceModel.getBrandId());
+        model.addAttribute("deviceBrand", deviceBrand);
+        model.addAttribute("conditions", conditionService.getAll());
+        Condition condition = conditionService.findOnyById(listing.getConditionId());
+        model.addAttribute("deviceCondition", condition);
+        return "listing/form";
+    }
+
+    @PutMapping
+    public String editListing(@ModelAttribute Listing entityListing) {
+        listingService.save(entityListing);
+        return "redirect:/listings/" + entityListing.getId();
     }
 
     @GetMapping("/{id}/delete")

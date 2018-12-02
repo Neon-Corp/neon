@@ -12,20 +12,17 @@ public class BrandService {
 
     @Autowired
     private BrandRepository brandRepository;
-    @Autowired
-    private ModelService modelService;
 
     public Iterable<Brand> getAll() {
         return brandRepository.findAll();
     }
 
-    public String getBrandById(Integer brandId){
+    public Brand getBrandById(Integer brandId){
         Optional<Brand> brand = brandRepository.findById(brandId);
         if (brand.isPresent()){
-            Brand brand1 = brand.get();
-            return brand1.getBrand();
+            return brand.get();
         } else {
-            return "";
+            return null;
         }
     }
 }

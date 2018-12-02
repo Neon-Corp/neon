@@ -9,26 +9,26 @@
     <div layout:fragment="content">
         <h1 th:inline="text">[[${listing.id == null} ? 'New listing' : 'Edit listing']]</h1>
         <hr />
-        <form th:action="@{/listings}" th:method="POST" th:object="${listing}">
+        <form th:action="@{/listings}" th:method="@{${listing.id == null} ? 'post' : 'put'}" th:object="${listing}">
 
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" id="sellerId" name="sellerId" th:value="${user.id}" />
             
             <div class="form-group">
                 <label for="brand">Brand</label>
-                <input type="text" class="form-control" id="brand">
+                <input type="text" class="form-control" id="brand" th:value="${deviceBrand == null} ? '' : ${deviceBrand.brand}">
             </div>
 
             <div class="form-group">
                 <label for="modelAutocomplete">Model</label>
-                <input type="text" class="form-control" id="modelAutocomplete">
-                <input type="hidden" id="model" th:field="*{modelId}">
+                <input type="text" class="form-control" id="modelAutocomplete" th:value="${deviceModel == null} ? '' : ${deviceModel.modelName}">
+                <input type="hidden" id="model" th:field="*{modelId}" th:value="${deviceModel == null} ? '' : ${deviceModel.id}">
             </div>
 
             <div class="form-group">
                 <label for="condition">Condition</label>
                 <select id="condition" class="form-control" th:field="*{conditionId}">
-                    <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" ></option>
+                    <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" th:selected="${deviceCondition != null && deviceCondition.id == c.id}" ></option>
                 </select>
             </div>
 
@@ -41,6 +41,9 @@
                 <label for="price">price</label>
                 <input id="price" name="price" class="form-control" th:field="*{price}" />
             </div>
+
+            <input type="hidden" name="listedOn" id="listedOn" th:field="*{listedDate}" th:if="${listing.id != null}">
+            <input type="hidden" name="listedOn" id="status" th:field="*{status}" th:if="${listing.id != null}">
 
             <button type="submit" class="btn btn-success">Save</button>
             <a class="btn btn-default" onclick="window.history.back()">Back</a>

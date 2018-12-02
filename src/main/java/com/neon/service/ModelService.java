@@ -14,6 +14,10 @@ public class ModelService {
     @Autowired
     private ModelRepository modelRepository;
 
+    public Model findOneById(Integer modelID) {
+        return modelRepository.findById(modelID).get();
+    }
+
     public Iterable<Model> getAll() {
         return modelRepository.findAll();
     }

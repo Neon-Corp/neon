@@ -10,6 +10,10 @@ public class ConditionService {
     @Autowired
     private ConditionRepository conditionRepository;
 
+    public Condition findOnyById(Integer conditionID) {
+        return conditionRepository.findById(conditionID).get();
+    }
+
     public Iterable<Condition> getAll() {
         return conditionRepository.findAll();
     }

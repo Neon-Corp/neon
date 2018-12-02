@@ -39,7 +39,7 @@
                 <td th:text="${l.price}"></td>
                 <td>
                     <a th:href="@{/listings/{id} (id = ${l.id})}" class="btn btn-primary">Show</a>
-                    <!--<a th:href="@{/listings/{id}/edit(id = ${module.id})}" class="btn btn-info">Edit</a>-->
+                    <a th:href="@{/listings/{id}/edit (id = ${l.id})}" class="btn btn-info" th:if="${l.status == 1}">Edit</a>
                     <a th:href="@{/listings/{id}/delete (id = ${l.id})}" class="btn btn-danger">Destroy</a>
                 </td>
             </tr>
