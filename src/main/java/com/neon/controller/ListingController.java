@@ -78,30 +78,12 @@ public class ListingController {
         String brandName = brandService.getBrandById(brandID).getBrand();
         model.addAttribute("brandName", brandName);
         if (modelName.isEmpty()) {
-            List<Listing> listingsFromBrand = new ArrayList<>();
-            Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
-            for (com.neon.model.Model m : modelsFromBrand){
-                Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
-                for (Listing l : modelListings){
-                    listingsFromBrand.add(l);
-                }
-            }
-            model.addAttribute("listings", listingsFromBrand);
-            return "listings/index";
+            model.addAttribute("listings", listingService.getAllFromBrand(brandID));
         } else {
-            Integer searchedModelId = modelService.getIdByName(modelName);
-            List<Listing> listingsFromBrand = new ArrayList<>();
-            Iterable<com.neon.model.Model> modelsFromBrand = modelService.getAllFromBrand(brandID);
-            for (com.neon.model.Model m : modelsFromBrand){
-                Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
-                for (Listing l : modelListings){
-                    if (l.getModel().getId().equals(searchedModelId))
-                        listingsFromBrand.add(l);
-                }
-            }
-            model.addAttribute("listings", listingsFromBrand);
-            return "listings/index";
+            Integer modelID = modelService.getIdByName(modelName);
+            model.addAttribute("listings", listingService.getAllFromModel(modelID));
         }
+        return "listings/index";
     }
 
     @GetMapping("/{id}/edit")

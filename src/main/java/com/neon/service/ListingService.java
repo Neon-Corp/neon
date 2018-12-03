@@ -35,14 +35,11 @@ public class ListingService {
         listingRepository.delete(listing);
     }
 
-    public Iterable<Listing> findAllFromModel(Integer modelId){
-        Iterable<Listing> fullList = findAll();
-        List<Listing> listingsFromModel = new ArrayList<>();
-        for (Listing l : fullList){
-            if (l.getModel().getId().equals(modelId)){
-                listingsFromModel.add(l);
-            }
-        }
-        return listingsFromModel;
+    public Iterable<Listing> getAllFromBrand(Integer brandID) {
+        return listingRepository.findAllFromBrand(brandID);
+    }
+
+    public Iterable<Listing> getAllFromModel(Integer modelID){
+        return listingRepository.findAllFromModel(modelID);
     }
 }

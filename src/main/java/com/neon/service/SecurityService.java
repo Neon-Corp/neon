@@ -29,10 +29,14 @@ public class SecurityService {
     }
 
     public static String getLoggedInUsername() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userDetails.getUsername();
+        if (isUserLoggedIn()) {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            Authentication authentication = securityContext.getAuthentication();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userDetails.getUsername();
+        } else {
+            return "";
+        }
     }
 
     public void autologin(String username, String encodedPassword) {
