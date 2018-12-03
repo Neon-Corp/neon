@@ -27,4 +27,8 @@ public class OrderService {
     public Iterable<Order> findAllByBuyerId(Integer buyerId){
         return orderRepository.getOrderByBuyer(buyerId);
     }
+
+    public Order getListingOrder(Integer listingID) {
+        return orderRepository.findOneByListing(listingID);
+    }
 }

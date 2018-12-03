@@ -12,4 +12,6 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     @Query("SELECT o FROM Order o JOIN o.listing l JOIN o.buyer u WHERE u.id = :buyerID")
     Iterable<Order> getOrderByBuyer(@Param("buyerID") Integer buyerID);
 
+    @Query("SELECT o FROM Order o WHERE o.listing.id = :listingID")
+    Order findOneByListing(@Param("listingID") Integer listingID);
 }

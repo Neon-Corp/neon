@@ -63,6 +63,8 @@ public class ListingController {
         model.addAttribute("user", seller);
         model.addAttribute("listing", listing);
 
+        model.addAttribute("orderInfo", orderService.getListingOrder(id));
+
         String userName = SecurityService.getLoggedInUsername();
 
         boolean sameUser = (userName.equals(seller.getUsername()));
