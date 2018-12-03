@@ -22,15 +22,8 @@ public class ModelService {
         return modelRepository.findAll();
     }
 
-    public List<Model> getAllFromBrand(Integer brandId){
-        Iterable<Model> fullList = getAll();
-        List<Model> resultList = new ArrayList<>();
-        for (Model m : fullList){
-            if (m.getBrand().getId().equals(brandId)){
-                resultList.add(m);
-            }
-        }
-        return resultList;
+    public Iterable<Model> getAllFromBrand(Integer brandID){
+        return modelRepository.findAllFromBrand(brandID);
     }
 
     public Integer getIdByName(String modelName) {
