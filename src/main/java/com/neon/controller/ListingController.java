@@ -57,7 +57,7 @@ public class ListingController {
         Listing listing = listingService.findOne(id).get();
         User seller = userService.findOne(listing.getSellerId()).get();
 
-        String m = modelService.getNameById(listing.getModelId());
+        String m = modelService.getNameById(listing.getModel().getId());
         model.addAttribute("model", m);
 
         model.addAttribute("user", seller);
@@ -95,7 +95,7 @@ public class ListingController {
             for (com.neon.model.Model m : modelsFromBrand){
                 Iterable<Listing> modelListings = listingService.findAllFromModel(m.getId());
                 for (Listing l : modelListings){
-                    if (l.getModelId().equals(searchedModelId))
+                    if (l.getModel().getId().equals(searchedModelId))
                         listingsFromBrand.add(l);
                 }
             }
@@ -111,7 +111,7 @@ public class ListingController {
         model.addAttribute("user", user);
         Listing listing = listingService.findOne(listingId).get();
         model.addAttribute("listing", listing);
-        com.neon.model.Model deviceModel = modelService.findOneById(listing.getModelId());
+        com.neon.model.Model deviceModel = modelService.findOneById(listing.getModel().getId());
         model.addAttribute("deviceModel", deviceModel);
         Brand deviceBrand = brandService.getBrandById(deviceModel.getBrandId());
         model.addAttribute("deviceBrand", deviceBrand);
@@ -143,20 +143,7 @@ public class ListingController {
     public String buy(@PathVariable("id") Integer listingId, Model model){
         String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
-        orderService.saveOrder(listingId, user.getId());
-
-        //Remover Do Vendedor.
-        //        //Adicionar ao comprador
-        //        //
-//        String buyerUsername = SecurityService.getLoggedInUsername();
-//        User user = userService.findOneByUsername(buyerUsername);
-//        orderService.saveOrder(new Order(listingId, user.getId()));
-//
-//        Listing listing = listingService.findOne(listingId).get();
-//        User seller = userService.findOne(listing.getSellerId()).get();
-//
-//        listingService.
-
+        orderService.saveOrder(listingId, user);
         return "redirect:/users/my-account";
     }
 }

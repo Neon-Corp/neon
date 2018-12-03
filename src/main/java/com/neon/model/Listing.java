@@ -10,8 +10,9 @@ public class Listing {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "model_id")
-    private Integer modelId;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private Model model;
 
     @Column(name = "seller_id")
     private Integer sellerId;
@@ -37,12 +38,12 @@ public class Listing {
         this.id = id;
     }
 
-    public Integer getModelId() {
-        return modelId;
+    public Model getModel() {
+        return model;
     }
 
-    public void setModelId(Integer modelId) {
-        this.modelId = modelId;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     public Integer getSellerId() {

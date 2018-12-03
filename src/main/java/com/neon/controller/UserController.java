@@ -1,7 +1,9 @@
 package com.neon.controller;
 
 import com.neon.model.Listing;
+import com.neon.model.Order;
 import com.neon.model.User;
+import com.neon.service.OrderService;
 import com.neon.service.SecurityService;
 import com.neon.service.ListingService;
 import com.neon.service.UserService;
@@ -27,6 +29,9 @@ public class UserController {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping(value = "/new")
     public String create(@ModelAttribute User user){
         if (SecurityService.isUserLoggedIn()){
@@ -50,8 +55,10 @@ public class UserController {
         String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         Iterable<Listing> myListings = listingService.findAllBySellerId(user.getId());
+        Iterable<Order> myOrders = orderService.findAllByBuyerId(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("listListing", myListings);
+        model.addAttribute("myOrders", myOrders);
         return "/user/show";
     }
 

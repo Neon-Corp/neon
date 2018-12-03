@@ -3,31 +3,36 @@ package com.neon.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name="listing_order")
-public class Order {
+public class Order implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "listing_id")
-    private Integer listingId;
+    @ManyToOne
+    @JoinColumn(name = "listing_id")
+    private Listing listing;
 
-    @Column(name = "buyer_id")
-    private Integer buyerId;
+    @ManyToOne
+    @JoinColumn(name = "buyer_id")
+    private User buyer;
 
     @Column(name = "order_date", columnDefinition="DATETIME DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
     private Timestamp orderDate;
 
     @Column(name="total_value")
-    private Double totalOrderValue;
+    private Double totalValue;
 
-    public Order(Integer listingId, Integer buyerId, Double totalOrderValue) {
-        this.listingId = listingId;
-        this.buyerId = buyerId;
-        this.totalOrderValue = totalOrderValue;
+    public Order() {}
+
+    public Order(Listing listing, User buyer, Double totalValue) {
+        this.listing = listing;
+        this.buyer = buyer;
+        this.totalValue = totalValue;
     }
 
     public Integer getId() {
@@ -38,20 +43,20 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getListingId() {
-        return listingId;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListingId(Integer listingId) {
-        this.listingId = listingId;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
 
-    public Integer getBuyerId() {
-        return buyerId;
+    public User getBuyer() {
+        return buyer;
     }
 
-    public void setBuyerId(Integer buyerId) {
-        this.buyerId = buyerId;
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
     }
 
     public Timestamp getOrderDate() {
@@ -62,11 +67,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Double getTotalOrderValue() {
-        return totalOrderValue;
+    public Double getTotalValue() {
+        return totalValue;
     }
 
-    public void setTotalOrderValue(Double totalOrderValue) {
-        this.totalOrderValue = totalOrderValue;
+    public void setTotalValue(Double totalValue) {
+        this.totalValue = totalValue;
     }
 }

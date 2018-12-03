@@ -20,31 +20,60 @@
         <a th:href="@{/users/delete'}" class="btn btn-danger">Delete this account</a>
 
 
-        <hr />
-        <h1>Listing List</h1>
-        <hr />
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Code</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="l : ${listListing}">
-                <td th:text="${l.id}"></td>
-                <td th:text="${l.description}"></td>
-                <td th:text="${l.price}"></td>
-                <td>
-                    <a th:href="@{/listings/{id} (id = ${l.id})}" class="btn btn-primary">Show</a>
-                    <a th:href="@{/listings/{id}/edit (id = ${l.id})}" class="btn btn-info" th:if="${l.status == 1}">Edit</a>
-                    <a th:href="@{/listings/{id}/delete (id = ${l.id})}" class="btn btn-danger">Destroy</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div id="my-orders-wrapper" th:if="${!#lists.isEmpty(myOrders)}">
+            <hr />
+            <h1>My orders</h1>
+            <hr />
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Model</th>
+                    <th>Description</th>
+                    <th>Total Value</th>
+                    <th>Order Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="o : ${myOrders}">
+                    <td th:text="${o.id}"></td>
+                    <td th:text="${o.listing.model.modelName}"></td>
+                    <td th:text="${o.listing.description}"></td>
+                    <td th:text="${o.totalValue}"></td>
+                    <td th:text="${o.orderDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div id="my-listings-wrapper" th:if="${!#lists.isEmpty(listListing)}">
+            <hr />
+            <h1>My listings</h1>
+            <hr />
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="l : ${listListing}">
+                    <td th:text="${l.id}"></td>
+                    <td th:text="${l.description}"></td>
+                    <td th:text="${l.price}"></td>
+                    <td>
+                        <a th:href="@{/listings/{id} (id = ${l.id})}" class="btn btn-primary">Show</a>
+                        <a th:href="@{/listings/{id}/edit (id = ${l.id})}" class="btn btn-info" th:if="${l.status == 1}">Edit</a>
+                        <a th:href="@{/listings/{id}/delete (id = ${l.id})}" class="btn btn-danger">Destroy</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>
