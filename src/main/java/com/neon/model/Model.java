@@ -1,9 +1,10 @@
 package com.neon.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Model {
+public class Model implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -11,8 +12,9 @@ public class Model {
     @Column(name = "model")
     private String modelName;
 
-    @Column(name = "brand_id")
-    private Integer brandId;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     public Integer getId() {
         return id;
@@ -30,11 +32,11 @@ public class Model {
         this.modelName = modelName;
     }
 
-    public Integer getBrandId() {
-        return brandId;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

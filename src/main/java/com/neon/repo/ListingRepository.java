@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ListingRepository extends CrudRepository<Listing, Integer> {
 
-    @Query("SELECT l FROM Listing l WHERE l.sellerId = :sellerId")
+    @Query("SELECT l FROM Listing l WHERE l.seller.id = :sellerId")
     Iterable<Listing> getListingsBySellerId(@Param("sellerId") Integer sellerId);
 }
 

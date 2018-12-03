@@ -22,12 +22,12 @@
             <div class="form-group">
                 <label for="modelAutocomplete">Model</label>
                 <input type="text" class="form-control" id="modelAutocomplete" th:value="${deviceModel == null} ? '' : ${deviceModel.modelName}">
-                <input type="hidden" id="model" th:field="*{modelId}" th:value="${deviceModel == null} ? '' : ${deviceModel.id}">
+                <input type="hidden" id="model" th:field="*{model}" th:value="${deviceModel == null} ? '' : ${deviceModel}">
             </div>
 
             <div class="form-group">
                 <label for="condition">Condition</label>
-                <select id="condition" class="form-control" th:field="*{conditionId}">
+                <select id="condition" class="form-control" th:field="*{condition}">
                     <option th:each="c : ${conditions}" th:value="${c.id}" th:text="${c.condition}" th:selected="${deviceCondition != null && deviceCondition.id == c.id}" ></option>
                 </select>
             </div>

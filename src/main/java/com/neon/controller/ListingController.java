@@ -55,10 +55,10 @@ public class ListingController {
     @GetMapping("/{id}")
     public String showListing(Model model, @PathVariable("id") Integer id){
         Listing listing = listingService.findOne(id).get();
-        User seller = userService.findOne(listing.getSellerId()).get();
+        User seller = userService.findOne(listing.getSeller().getId()).get();
 
-        String m = modelService.getNameById(listing.getModel().getId());
-        model.addAttribute("model", m);
+        String deviceModel = listing.getModel().getModelName();
+        model.addAttribute("model", deviceModel);
 
         model.addAttribute("user", seller);
         model.addAttribute("listing", listing);
@@ -111,12 +111,10 @@ public class ListingController {
         model.addAttribute("user", user);
         Listing listing = listingService.findOne(listingId).get();
         model.addAttribute("listing", listing);
-        com.neon.model.Model deviceModel = modelService.findOneById(listing.getModel().getId());
-        model.addAttribute("deviceModel", deviceModel);
-        Brand deviceBrand = brandService.getBrandById(deviceModel.getBrandId());
-        model.addAttribute("deviceBrand", deviceBrand);
+        model.addAttribute("deviceModel", listing.getModel());
+        model.addAttribute("deviceBrand", listing.getModel().getBrand());
         model.addAttribute("conditions", conditionService.getAll());
-        Condition condition = conditionService.findOnyById(listing.getConditionId());
+        Condition condition = conditionService.findOnyById(listing.getCondition().getId());
         model.addAttribute("deviceCondition", condition);
         return "listing/form";
     }
@@ -130,7 +128,7 @@ public class ListingController {
     @GetMapping("/{id}/delete")
     public String deleteListing(Model model, @PathVariable("id") Integer listingId) {
         Listing listing = listingService.findOne(listingId).get();
-        Integer sellerId = listing.getSellerId();
+        Integer sellerId = listing.getSeller().getId();
         String loggedInUsername = SecurityService.getLoggedInUsername();
         User user = userService.findOneByUsername(loggedInUsername);
         if (sellerId.equals(user.getId())) {

@@ -22,9 +22,9 @@
                 <tr th:each="listing : ${listings}">
                     <td th:text="${listing.description}"></td>
                     <td>
-                        <span th:if="${listing.conditionId == 1}">Ruim</span>
-                        <span th:if="${listing.conditionId == 2}">Bom</span>
-                        <span th:if="${listing.conditionId == 3}">Novo</span>
+                        <span th:if="${listing.condition.id == 1}">Ruim</span>
+                        <span th:if="${listing.condition.id == 2}">Bom</span>
+                        <span th:if="${listing.condition.id == 3}">Novo</span>
                     </td>
                     <td th:text="${listing.price}"></td>
                     <td>

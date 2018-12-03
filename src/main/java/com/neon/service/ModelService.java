@@ -26,7 +26,7 @@ public class ModelService {
         Iterable<Model> fullList = getAll();
         List<Model> resultList = new ArrayList<>();
         for (Model m : fullList){
-            if (m.getBrandId().equals(brandId)){
+            if (m.getBrand().getId().equals(brandId)){
                 resultList.add(m);
             }
         }

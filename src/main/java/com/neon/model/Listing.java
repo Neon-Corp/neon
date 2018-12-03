@@ -3,10 +3,11 @@ package com.neon.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-public class Listing {
+public class Listing implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -14,11 +15,13 @@ public class Listing {
     @JoinColumn(name = "model_id")
     private Model model;
 
-    @Column(name = "seller_id")
-    private Integer sellerId;
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User seller;
 
-    @Column(name = "condition_id")
-    private Integer conditionId;
+    @ManyToOne
+    @JoinColumn(name = "condition_id")
+    private Condition condition;
 
     @Column(name = "listed_on", columnDefinition="DATETIME DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
@@ -46,20 +49,20 @@ public class Listing {
         this.model = model;
     }
 
-    public Integer getSellerId() {
-        return sellerId;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setSellerId(User seller) {
+        this.seller = seller;
     }
 
-    public Integer getConditionId() {
-        return conditionId;
+    public Condition getCondition() {
+        return condition;
     }
 
-    public void setConditionId(Integer conditionId) {
-        this.conditionId = conditionId;
+    public void setCondition(Condition condition) {
+        this.condition = condition;
     }
 
     public Timestamp getListedDate() {

@@ -1,7 +1,5 @@
 package com.neon.model;
 
-import org.hibernate.mapping.Collection;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
